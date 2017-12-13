@@ -1,0 +1,6 @@
+test-output
+src/*.java
+target/
+.allure/*
+allure-results/*
+
