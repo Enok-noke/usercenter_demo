@@ -19,6 +19,7 @@ import org.springframework.web.bind.annotation.ResponseBody;
 import com.eyee.usercenter.pojo.ResponsePojo;
 import com.eyee.usercenter.pojo.UserPojo;
 import com.eyee.usercenter.service.UserService;
+import com.eyee.usercenter.utils.StringUtil;
 
 /**
  * @ClassName: UserController
@@ -28,56 +29,41 @@ import com.eyee.usercenter.service.UserService;
  * 
  */
 @Controller
-@RequestMapping({ "user" })
+@RequestMapping({ "/user" })
 public class UserController {
 	@Autowired
 	UserService userService;
 
 	@RequestMapping(value = "/userinfo", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
 	@ResponseBody
-	public ResponseEntity<ResponsePojo<UserPojo>> userInfo(@RequestBody UserPojo userPojo) {
-		ResponsePojo<UserPojo> response = new ResponsePojo<>();
-		UserPojo user = userService.showUser(userPojo.getUserId());
-		
-		response.setData(user);
-		
-		if (user == null) {
-			response.setCode(401);
-			response.setMsg("无对应用户");
-			return new ResponseEntity<ResponsePojo<UserPojo>>(response, HttpStatus.OK);
+	public ResponseEntity<ResponsePojo<?>> userInfo(@RequestBody UserPojo userPojo) {
+		if (userPojo.getUserId() == null) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(502, "missing param", "userId"),
+					HttpStatus.OK);
 		}
-		
-		response.setCode(200);
-		response.setMsg("请求成功");
-		return new ResponseEntity<ResponsePojo<UserPojo>>(response, HttpStatus.OK);
+
+		userPojo = userService.showUser(userPojo.getUserId());
+
+		if (userPojo == null) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(401, "user non-existent"), HttpStatus.OK);
+		}
+
+		return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(200, "success", userPojo), HttpStatus.OK);
 	}
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
 	@ResponseBody
-	public ResponseEntity<ResponsePojo<UserPojo>> register(@RequestBody UserPojo userPojo) {
-		boolean flag = userService.insertUser(userPojo);
-		
-		ResponsePojo<UserPojo> response = new ResponsePojo<>();
-		
-		if (!flag) {
-			response.setCode(501);
-			response.setMsg("注册失败");
-			return new ResponseEntity<ResponsePojo<UserPojo>>(response, HttpStatus.OK);
+	public ResponseEntity<ResponsePojo<?>> register(@RequestBody UserPojo userPojo) {
+		if (StringUtil.isEmpty(userPojo.getUserName()) || StringUtil.isEmpty(userPojo.getPassword())) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(502, "missing param", "userName, password"),
+					HttpStatus.OK);
 		}
-		
-		response.setCode(200);
-		response.setMsg("请求成功");
-		response.setData(userPojo);
-		return new ResponseEntity<ResponsePojo<UserPojo>>(response, HttpStatus.OK);
-	}
+		boolean flag = userService.insertUser(userPojo);
 
-//	@RequestMapping(value = "/delete", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
-//	public ResponseEntity<Boolean> deteleUser() {
-//		return userService.deleteUser();
-//	}
-//
-//	@RequestMapping(value = "/update", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
-//	public ResponseEntity<UserPojo> updateUser() {
-//		return userService.updateUser();
-//	}
+		if (!flag) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(600, "operation failed"), HttpStatus.OK);
+		}
+
+		return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(200, "success", userPojo), HttpStatus.OK);
+	}
 }

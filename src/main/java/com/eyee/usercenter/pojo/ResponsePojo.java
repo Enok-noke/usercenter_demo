@@ -18,6 +18,25 @@ public class ResponsePojo<T> {
 	private int code;
 	private String msg;
 	private T data;
+	
+	/**  
+	* 创建一个新的实例 ResponsePojo.  
+	*    
+	*/
+	public ResponsePojo(int code, String msg, T data) {
+		this.code = code;
+		this.msg = msg;
+		this.data = data;
+	}
+	
+	/**  
+	* 创建一个新的实例 ResponsePojo.  
+	*    
+	*/
+	public ResponsePojo(int code, String msg) {
+		this.code = code;
+		this.msg = msg;
+	}
 
 	public int getCode() {
 		return code;

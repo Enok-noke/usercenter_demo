@@ -15,17 +15,17 @@ package com.eyee.usercenter.pojo;
  * 
  */
 public class UserPojo {
-	private int userId;
+	private Integer userId;
 	private String userName;
 	private transient String password;
 	private transient int status;
 	private transient boolean isDel;
 
-	public int getUserId() {
+	public Integer getUserId() {
 		return userId;
 	}
 
-	public void setUserId(int userId) {
+	public void setUserId(Integer userId) {
 		this.userId = userId;
 	}
 

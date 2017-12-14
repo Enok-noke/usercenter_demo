@@ -31,7 +31,7 @@ public interface UserDAO {
 	@ResultType(UserPojo.class)
 	UserPojo showUser(int userId);
 	
-	@Delete("delete from user whereuserid=#{userid}")
+	@Delete("delete from user where userid=#{userid}")
 	boolean deleteUser(int userId);
 	
 	@Update("UPDATE user SET password=#{password} WHERE userid=#{userid}")
