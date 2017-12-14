@@ -30,7 +30,7 @@ import org.springframework.jdbc.datasource.DriverManagerDataSource;
  */
 
 @Configuration
-@ComponentScan(basePackages = { "main.java.com.eyee.usercenter" }, excludeFilters = {
+@ComponentScan(basePackages = { "com.eyee.usercenter" }, excludeFilters = {
 		@Filter(type = FilterType.ANNOTATION, value = EnableWebMvc.class) })
 public class RootConfig {
 
@@ -57,7 +57,7 @@ public class RootConfig {
 	@Bean
 	public MapperScannerConfigurer mapperScannerConfigurer() {
 		MapperScannerConfigurer mapperScannerConfigurer = new MapperScannerConfigurer();
-		mapperScannerConfigurer.setBasePackage("main.java.com.eyee.usercenter.dao");
+		mapperScannerConfigurer.setBasePackage("com.eyee.usercenter.dao");
 		
 		return mapperScannerConfigurer;
 	}

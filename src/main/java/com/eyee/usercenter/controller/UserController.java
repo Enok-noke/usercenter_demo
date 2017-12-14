@@ -29,7 +29,7 @@ import com.eyee.usercenter.utils.StringUtil;
  * 
  */
 @Controller
-@RequestMapping({ "/user" })
+@RequestMapping("/user")
 public class UserController {
 	@Autowired
 	UserService userService;
@@ -64,6 +64,23 @@ public class UserController {
 			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(600, "operation failed"), HttpStatus.OK);
 		}
 
+		return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(200, "success", userPojo), HttpStatus.OK);
+	}
+
+	@RequestMapping(value = "/close", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
+	@ResponseBody
+	public ResponseEntity<ResponsePojo<?>> close(@RequestBody UserPojo userPojo) {
+		if (userPojo.getUserId() == null) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(502, "missing param", "userName, password"),
+					HttpStatus.OK);
+		}
+
+		boolean flag = userService.deleteUser(userPojo.getUserId());
+
+		if (!flag) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(600, "operation failed"), HttpStatus.OK);
+		}
+		
 		return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(200, "success", userPojo), HttpStatus.OK);
 	}
 }

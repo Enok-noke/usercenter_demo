@@ -35,7 +35,7 @@ import com.alibaba.fastjson.support.spring.FastJsonHttpMessageConverter;
 
 @Configuration
 @EnableWebMvc
-@ComponentScan("main.java.com.eyee.usercenter.controller")
+@ComponentScan("com.eyee.usercenter.controller")
 public class WebConfig extends WebMvcConfigurerAdapter {
 	@Bean
 	public ViewResolver viewResolver() {
