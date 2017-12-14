@@ -35,7 +35,7 @@ public class UserController {
 
 	@RequestMapping(value = "/userinfo", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
 	@ResponseBody
-	public ResponseEntity<ResponsePojo<UserPojo>> userInfo(UserPojo userPojo) {
+	public ResponseEntity<ResponsePojo<UserPojo>> userInfo(@RequestBody UserPojo userPojo) {
 		ResponsePojo<UserPojo> response = new ResponsePojo<>();
 		UserPojo user = userService.showUser(userPojo.getUserId());
 		
@@ -54,7 +54,7 @@ public class UserController {
 
 	@RequestMapping(value = "/register", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
 	@ResponseBody
-	public ResponseEntity<ResponsePojo<UserPojo>> register(UserPojo userPojo) {
+	public ResponseEntity<ResponsePojo<UserPojo>> register(@RequestBody UserPojo userPojo) {
 		boolean flag = userService.insertUser(userPojo);
 		
 		ResponsePojo<UserPojo> response = new ResponsePojo<>();

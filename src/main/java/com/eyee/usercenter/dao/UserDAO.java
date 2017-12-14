@@ -26,11 +26,14 @@ public interface UserDAO {
 	@Insert("insert into user(userName,password, status, isdel) values (#{userName},#{password},1,0)")
 	@Options(useGeneratedKeys = true, keyProperty="userId")
 	boolean insertUser(UserPojo userPojo);
+	
 	@Select("select userid, username from user where userid=#{userid}")
 	@ResultType(UserPojo.class)
 	UserPojo showUser(int userId);
+	
 	@Delete("delete from user whereuserid=#{userid}")
 	boolean deleteUser(int userId);
+	
 	@Update("UPDATE user SET password=#{password} WHERE userid=#{userid}")
 	boolean updateUser(UserPojo userPojo);
 }
