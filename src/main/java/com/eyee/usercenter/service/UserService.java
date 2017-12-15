@@ -19,6 +19,6 @@ import com.eyee.usercenter.pojo.UserPojo;
 public interface UserService {
 	boolean insertUser(UserPojo userPojo);
 	UserPojo showUser(int userId);
-	boolean deleteUser(int userId);
-	boolean updateUser(UserPojo userPojo);
+	int deleteUser(int userId);
+	int updateUser(int userId, String password);
 }

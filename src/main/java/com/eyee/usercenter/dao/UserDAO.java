@@ -17,12 +17,14 @@ package com.eyee.usercenter.dao;
 import org.apache.ibatis.annotations.Delete;
 import org.apache.ibatis.annotations.Insert;
 import org.apache.ibatis.annotations.Options;
+import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.ResultType;
 import org.apache.ibatis.annotations.Select;
 import org.apache.ibatis.annotations.Update;
 import com.eyee.usercenter.pojo.UserPojo;
 
 public interface UserDAO {
+	
 	@Insert("insert into user(userName,password, status, isdel) values (#{userName},#{password},1,0)")
 	@Options(useGeneratedKeys = true, keyProperty="userId")
 	boolean insertUser(UserPojo userPojo);
@@ -32,8 +34,8 @@ public interface UserDAO {
 	UserPojo showUser(int userId);
 	
 	@Delete("delete from user where userid=#{userid}")
-	boolean deleteUser(int userId);
+	int deleteUser(int userId);
 	
 	@Update("UPDATE user SET password=#{password} WHERE userid=#{userid}")
-	boolean updateUser(UserPojo userPojo);
+	int updateUser(@Param("userid")int userId, @Param("password")String password);
 }

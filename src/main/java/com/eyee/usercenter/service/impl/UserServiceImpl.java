@@ -69,9 +69,8 @@ public class UserServiceImpl implements UserService {
 	 * @see com.eyee.usercenter.service.UserService#deleteUser()
 	 */
 	@Override
-	public boolean deleteUser(int userId) {
-		// TODO Auto-generated method stub
-		return false;
+	public int deleteUser(int userId) {
+		return userDao.deleteUser(userId);
 	}
 
 	/*
@@ -82,9 +81,8 @@ public class UserServiceImpl implements UserService {
 	 * @see com.eyee.usercenter.service.UserService#updateUser()
 	 */
 	@Override
-	public boolean updateUser(UserPojo userPojo) {
-		// TODO Auto-generated method stub
-		return false;
+	public int updateUser(int userId, String password) {
+		return userDao.updateUser(userId, password);
 	}
 
 }

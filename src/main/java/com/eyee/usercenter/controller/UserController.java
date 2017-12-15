@@ -75,12 +75,29 @@ public class UserController {
 					HttpStatus.OK);
 		}
 
-		boolean flag = userService.deleteUser(userPojo.getUserId());
+		int count = userService.deleteUser(userPojo.getUserId());
 
-		if (!flag) {
+		if (count != 1) {
 			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(600, "operation failed"), HttpStatus.OK);
 		}
 		
-		return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(200, "success", userPojo), HttpStatus.OK);
+		return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(200, "success"), HttpStatus.OK);
+	}
+	
+	@RequestMapping(value = "/modify", method = RequestMethod.POST, produces = { "application/json; charset=UTF-8" })
+	@ResponseBody
+	public ResponseEntity<ResponsePojo<?>> modify(@RequestBody UserPojo userPojo) {
+		if (userPojo.getUserId() == null || StringUtil.isEmpty(userPojo.getPassword())) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(502, "missing param", "userId, password"),
+					HttpStatus.OK);
+		}
+
+		int count = userService.updateUser(userPojo.getUserId(), userPojo.getPassword());
+
+		if (count != 1) {
+			return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(600, "operation failed"), HttpStatus.OK);
+		}
+		
+		return new ResponseEntity<ResponsePojo<?>>(new ResponsePojo<>(200, "success", userService.showUser(userPojo.getUserId())), HttpStatus.OK);
 	}
 }
